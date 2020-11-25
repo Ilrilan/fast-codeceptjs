@@ -113,6 +113,7 @@ export const FioForm = (props = {}) => {
       {canSubmit ? <div>Данные введены корректные!</div> : null}
       <br />
       <input
+        name={'submit'}
         type={'button'}
         disabled={!canSubmit || validating}
         onClick={() => onSubmit(state)}
@@ -120,7 +121,13 @@ export const FioForm = (props = {}) => {
       />
       <br />
       <br />
-      <input type={'button'} disabled={!canSubmit} onClick={() => setState(initialState)} value={'Очистить заявку'} />
+      <input
+        type={'button'}
+        name={'clearForm'}
+        disabled={!canSubmit}
+        onClick={() => setState(initialState)}
+        value={'Очистить заявку'}
+      />
     </>
   )
 }

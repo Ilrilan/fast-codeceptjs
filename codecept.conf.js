@@ -3,12 +3,17 @@ exports.config = {
   output: './output',
   helpers: {
     Puppeteer: {
+      require: './utils/puppeteer-driver.js',
       url: 'http://localhost:6006',
       show: true,
+      restart: false,
       windowSize: '1200x900',
       useInputReactUtils: true,
       waitForAction: 10,
       waitForTimeout: 5000,
+    },
+    FastCodeceptjsHelper: {
+      require: './utils/codecept-helper.js',
     },
   },
   include: {},
