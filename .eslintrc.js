@@ -10,7 +10,7 @@ module.exports = {
   },
   rules: {
     'import/extensions': ['error', 'never', { css: 'always', json: 'always' }],
-    'no-console': 'error',
+    'no-console': 'warn',
     'no-unused-vars': ['error', { vars: 'all', args: 'none', ignoreRestSiblings: true }],
     'no-restricted-imports': ['warn', 'prop-types'],
     'import/prefer-default-export': 'off',

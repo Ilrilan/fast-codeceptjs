@@ -7,7 +7,8 @@ const logArgs = (state) => {
 }
 
 storiesOf('simpleApp', module)
-  .add('allData', () => <FioForm onSubmit={logArgs} />)
+  .add('allDataRequired', () => <FioForm onSubmit={logArgs} />)
+  .add('neverCanSubmit', () => <FioForm onSubmit={logArgs} />)
   .add('minFirstNameLength3', () => (
     <FioForm
       onSubmit={logArgs}
