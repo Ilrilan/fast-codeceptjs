@@ -47,43 +47,48 @@ class PuppeteerWrapper extends Puppeteer {
 
   async waitDisabled(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('waitDisabled', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('waitDisabled', matchedLocator.value)
   }
 
   async waitEnabled(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('waitEnabled', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('waitEnabled', matchedLocator.value)
   }
 
   async waitFocused(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('waitFocused', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('waitFocused', matchedLocator.value)
   }
 
   async waitVisible(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('waitVisible', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('waitVisible', matchedLocator.value)
+  }
+
+  async waitValue(locator, value) {
+    const matchedLocator = new Locator(locator)
+    return await this.__executeCodeceptMethod('waitValue', matchedLocator.value, value)
   }
 
   async waitInvisible(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('waitInvisible', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('waitInvisible', matchedLocator.value)
   }
 
   async waitUnfocused(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('waitUnfocused', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('waitUnfocused', matchedLocator.value)
   }
 
   async click(locator) {
     const matchedLocator = new Locator(locator)
-    return await this.__executeCodeceptMethod('click', matchedLocator.value, matchedLocator.toString())
+    return await this.__executeCodeceptMethod('click', matchedLocator.value)
   }
 
-  async fillField(field, value, blurAfter) {
+  async fill(field, value, blurAfter) {
     if (this.useInputReactUtils) {
       const matchedLocator = new Locator(field)
-      return await this.__executeCodeceptMethod('fill', matchedLocator.value, field.toString(), value, blurAfter)
+      return await this.__executeCodeceptMethod('fill', matchedLocator.value, value, blurAfter)
     }
     return super.fillField(field, value)
   }

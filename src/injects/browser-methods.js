@@ -114,7 +114,7 @@ async function waitForFunction(fn, argsOrSec, sec) {
 }
 
 // eslint-disable-next-line max-params
-async function fill(xpath, locatorStr, value, doBlur = false, done) {
+async function fill(xpath, value, doBlur = false, done) {
   async function macroTask() {
     await new Promise((resolve) => {
       setTimeout(resolve, 0)
@@ -134,8 +134,13 @@ async function fill(xpath, locatorStr, value, doBlur = false, done) {
 
   try {
     const els = await $x(xpath)
-    assertElementExists(els, locatorStr)
+    assertElementExists(els, xpath)
     const el = els[0]
+
+    if (el.hasAttribute('maxlength')) {
+      const maxLength = parseInt(el.getAttribute('maxlength'))
+      value = value.slice(0, maxLength)
+    }
 
     el.focus()
     ReactTestUtils.Simulate.focus(el)
@@ -144,8 +149,6 @@ async function fill(xpath, locatorStr, value, doBlur = false, done) {
 
     el.value = value
     ReactTestUtils.Simulate.change(el)
-
-    await macroTask()
 
     if (doBlur) {
       el.blur()
@@ -169,76 +172,87 @@ async function fill(xpath, locatorStr, value, doBlur = false, done) {
   }
 }
 
-async function waitFocused(xpath, locatorStr, done) {
+async function waitFocused(xpath, done) {
   return waitForFunction(() => {
     const el = $x(xpath)[0]
     return el && el === document.activeElement
   })
     .then(() => done('OK'))
     .catch(() => {
-      done(`ERROR: Element ${locatorStr} was not focused`)
+      done(`ERROR: Element ${xpath} was not focused`)
     })
 }
 
-async function waitUnfocused(xpath, locatorStr, done) {
+async function waitUnfocused(xpath, done) {
   return waitForFunction(() => {
     const el = $x(xpath)[0]
     return el && el !== document.activeElement
   })
     .then(() => done('OK'))
     .catch(() => {
-      done(`ERROR: Element ${locatorStr} still in focus`)
+      done(`ERROR: Element ${xpath} still in focus`)
     })
 }
 
-async function waitVisible(xpath, locatorStr, done) {
+async function waitVisible(xpath, done) {
   return waitForFunction(() => {
     const el = $x(xpath)[0]
     return el && isVisible(el)
   })
     .then(() => done('OK'))
     .catch(() => {
-      done(`ERROR: Element ${locatorStr} was invisible`)
+      done(`ERROR: Element ${xpath} was invisible`)
     })
 }
 
-async function waitDisabled(xpath, locatorStr, done) {
+async function waitDisabled(xpath, done) {
   return waitForFunction(() => {
     const el = $x(xpath)[0]
     return el && el.disabled
   })
     .then(() => done('OK'))
     .catch(() => {
-      done(`ERROR: Element ${locatorStr} was enabled`)
+      done(`ERROR: Element ${xpath} was enabled`)
     })
 }
 
-async function waitEnabled(xpath, locatorStr, done) {
+async function waitEnabled(xpath, done) {
   return waitForFunction(() => {
     const el = $x(xpath)[0]
     return el && !el.disabled
   })
     .then(() => done('OK'))
     .catch(() => {
-      done(`ERROR: Element ${locatorStr} was disabled`)
+      done(`ERROR: Element ${xpath} was disabled`)
     })
 }
 
-async function waitInvisible(xpath, locatorStr, done) {
+async function waitInvisible(xpath, done) {
   return waitForFunction(() => {
     const el = $x(xpath)[0]
     return !el || !isVisible(el)
   })
     .then(() => done('OK'))
     .catch(() => {
-      done(`ERROR: Element ${locatorStr} was visible`)
+      done(`ERROR: Element ${xpath} was visible`)
     })
 }
 
-async function click(xpath, locatorStr, done) {
+async function waitValue(xpath, value, done) {
+  return waitForFunction(() => {
+    const el = $x(xpath)[0]
+    return !el || el.value === value
+  })
+    .then(() => done('OK'))
+    .catch(() => {
+      done(`ERROR: Element ${xpath} still hasn't value "${value}"`)
+    })
+}
+
+async function click(xpath, done) {
   try {
     const els = await $x(xpath)
-    assertElementExists(els, locatorStr)
+    assertElementExists(els, xpath)
     const el = els[0]
 
     _focus(el)
@@ -250,6 +264,7 @@ async function click(xpath, locatorStr, done) {
 }
 
 async function batchExecute(browserMethods, done) {
+  debugger
   try {
     const startAllBatch = performance.now()
     for (let i = 0; i < browserMethods.length; i++) {
@@ -288,6 +303,7 @@ const publicMethods = {
   waitInvisible,
   waitDisabled,
   waitEnabled,
+  waitValue,
   click,
   batchExecute,
 }

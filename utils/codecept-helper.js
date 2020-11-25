@@ -77,6 +77,10 @@ class FastCodeceptHelper extends Helper {
   }
 
   async amOnStory(url) {
+    if (!this.config.useAmOnStory) {
+      await this.helper.amOnPage(url)
+      return
+    }
     this.lastUrl = url
     try {
       const currentUrl = await this.helper.grabCurrentUrl()
