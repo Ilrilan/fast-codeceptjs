@@ -10,8 +10,13 @@ const initialState = {
   validating: false,
 }
 
+const defaultIsDataCorrect = (state) => {
+  const { firstName, secondName, lastName, passportSerie, passportGivenBy } = state
+  return !!firstName && !!secondName && !!lastName && !!passportSerie && !!passportGivenBy
+}
+
 export const FioForm = (props = {}) => {
-  const { onSubmit = () => {} } = props
+  const { onSubmit = () => {}, isDataCorrect = defaultIsDataCorrect } = props
   const [state, setState] = useState(initialState)
 
   const updateState = (patchState) => {
@@ -19,8 +24,8 @@ export const FioForm = (props = {}) => {
       ...state,
       ...patchState,
     }
-    const { firstName, secondName, lastName, passportSerie, passportGivenBy, canSubmit } = newState
-    const submitEnabled = !!firstName && !!secondName && !!lastName && !!passportSerie && !!passportGivenBy
+    const { canSubmit } = newState
+    const submitEnabled = isDataCorrect(newState)
     if (!canSubmit && canSubmit !== submitEnabled) {
       newState.validating = true
       setTimeout(() => {
