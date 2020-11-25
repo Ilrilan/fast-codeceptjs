@@ -1,7 +1,9 @@
-import React from 'react'
-import { storiesOf} from "@storybook/react";
+import { storiesOf } from '@storybook/react'
 
-import App from '../App'
+import { FioForm } from '../App'
 
-storiesOf('simpleApp', module)
-    .add('firstStory', App)
+const logArgs = (...args) => {
+  console.log(args)
+}
+
+storiesOf('simpleApp', module).add('firstStory', () => <FioForm onSubmit={logArgs} />)
