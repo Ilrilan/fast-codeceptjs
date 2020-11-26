@@ -12,8 +12,8 @@ const switchToStory = (storyId, url, done) => {
   const trySwitch = () => {
     return new Promise((resolve, reject) => {
       __STORYBOOK_CLIENT_API__._storyStore.setSelection({ storyId: 'none' })
-      if (window.__fbActiveRequests) {
-        window.__fbActiveRequests.clear()
+      if (window.__ActiveRequests) {
+        window.__ActiveRequests.clear()
       }
       setTimeout(() => {
         __STORYBOOK_CLIENT_API__._storyStore.setSelection({
@@ -23,7 +23,7 @@ const switchToStory = (storyId, url, done) => {
         window.history.pushState({ storyId }, '', url)
 
         function checkRequests() {
-          if (!window.__fbActiveRequests || !window.__fbActiveRequests.hasActive()) {
+          if (!window.__ActiveRequests || !window.__ActiveRequests.hasActive()) {
             resolve()
           } else {
             setTimeout(checkRequests, 0)

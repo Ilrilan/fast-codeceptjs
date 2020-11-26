@@ -5,6 +5,8 @@ Feature('Simple test')
 const LongText = 'Клиенториентированная одиннадцатиклассница сильно ошиблась в выборе своей профессии'
 const FirstFieldsMaxLengthText = 'Клиенториентированная одиннадц'
 
+Before(async (I) => {})
+
 Scenario('firstName Length 3', async (I) => {
   await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--minfirstnamelength3')
   await I.waitForVisible(locators.firstName)
@@ -24,6 +26,28 @@ Scenario('Clear button worked', async (I) => {
   await I.waitValue(locators.firstName, '')
 })
 
+Scenario('Clear button w12orked', async (I) => {
+  await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--minfirstnamelength3')
+  await I.waitForVisible(locators.firstName)
+  await I.fill(locators.firstName, 'First name')
+  await I.waitForText('Ожидайте проверки введенных данных')
+  await I.waitEnabled(locators.submit)
+  await I.click(locators.clear)
+  await I.waitDisabled(locators.submit)
+  await I.waitValue(locators.firstName, '')
+})
+
+Scenario('Clear button 3546worked', async (I) => {
+  await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--minfirstnamelength3')
+  await I.waitForVisible(locators.firstName)
+  await I.fill(locators.firstName, 'First name')
+  await I.waitForText('Ожидайте проверки введенных данных')
+  await I.waitEnabled(locators.submit)
+  await I.click(locators.clear)
+  await I.waitDisabled(locators.submit)
+  await I.waitValue(locators.firstName, '')
+})
+
 Scenario('Button on form are disabled', async (I) => {
   await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--minfirstnamelength3')
   await I.waitVisible(locators.firstName)
@@ -32,7 +56,7 @@ Scenario('Button on form are disabled', async (I) => {
 })
 
 Scenario('Max Length In All Fields', async (I) => {
-  await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--alldatarequired')
+  await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--minfirstnamelength3')
   await I.waitVisible(locators.firstName)
   await I.fill(locators.firstName, LongText)
   await I.waitValue(locators.firstName, FirstFieldsMaxLengthText)
@@ -44,9 +68,8 @@ Scenario('Max Length In All Fields', async (I) => {
   await I.waitValue(locators.passportSerie, 'Клиенториен')
   await I.fill(locators.passportGivenBy, LongText)
   await I.waitValue(locators.passportGivenBy, LongText)
-})
-Scenario('Max Length In All Fields batching', async (I) => {
-  await I.amOnStory('http://localhost:6006/iframe.html?id=simpleapp--alldatarequired')
+}) /*
+Scenario('Max Length With Batch', async (I) => {
   await I.batchExecute([
     ['waitVisible', locators.firstName],
     ['fill', locators.firstName, LongText],
@@ -61,3 +84,4 @@ Scenario('Max Length In All Fields batching', async (I) => {
     ['waitValue', locators.passportGivenBy, LongText],
   ])
 })
+*/

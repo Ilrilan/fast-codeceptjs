@@ -34,7 +34,7 @@ export const FioForm = (props = {}) => {
     }
     if (!canSubmit && canSubmit !== submitEnabled) {
       newState.validating = true
-      const p = new Promise((resolve) => setTimeout(resolve, 1000))
+      const p = new Promise((resolve) => setTimeout(resolve, 100))
       lastPromise = p
       p.then(() => {
         if (p === lastPromise) {
